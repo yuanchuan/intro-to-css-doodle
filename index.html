@@ -1,3 +1,5 @@
+<!doctype html>
+<html>
 <head>
   <meta charset="utf8">
   <title>Introduction to css-doodle</title>
@@ -11,27 +13,19 @@
       margin: 0;
       padding: 0;
     }
-
     ul, ol {
       list-style: none;
     }
-
     body {
       font-family: "Shadows Into Light", cursive;
       line-height: 1.4;
     }
-
-    css-doodle {
-      font-family: system-ui;
-    }
-
     main {
       scroll-snap-type: y mandatory;
       height: 100vh;
       overflow: auto;
       overflow-x: hidden;
     }
-
     slide {
       width: 100%;
       height: 100vh;
@@ -92,11 +86,13 @@
       margin-top: .5em;
     }
 
-    pre {
+    css-doodle, pre {
       font-family: 'PT Mono', monospace;
     }
   </style>
 </head>
+
+<body>
 <main>
 
 <slide col2>
@@ -440,6 +436,7 @@ selector {
 }
 
 @nth(13) {
+  background: red;
   @shape: star;
 }</pre>
   <css-doodle click-to-update>
@@ -452,6 +449,7 @@ selector {
     }
 
     @nth(13) {
+      background: red;
       @shape: star;
     }
   </css-doodle>
@@ -463,7 +461,7 @@ selector {
 background: #000;
 margin: auto;
 
-@size: calc(100% / @I * @i);
+@size: calc(@i * 1%);
 
 rotate: calc(360deg / @I * @i);
 </pre>
@@ -471,7 +469,7 @@ rotate: calc(360deg / @I * @i);
     @grid: 10 / 32vw no-clip;
     background: #000;
     margin: auto;
-    @size: calc(100% / @I * @i);
+    @size: calc(@i * 1%);
     rotate: calc(360deg / @I * @i);
   </css-doodle>
 </slide>
@@ -489,8 +487,8 @@ rotate: calc(360deg / @I * @i);
 background: #000;
 margin: auto;
 
-<code class="fade">@size: calc(100% / @I * @i);</code>
-@size: @iI(*100%);
+<code class="fade">@size: calc(@i * 1%);</code>
+@size: @i(*1%);
 
 <code class="fade">rotate: calc(360deg / @I * @i); </code>
 rotate: @iI(*360deg);
@@ -499,8 +497,8 @@ rotate: @iI(*360deg);
     @grid: 10 / 32vw no-clip;
     background: #000;
     margin: auto;
-    <code class="fade">@size: calc(100% / @I * @i);</code>
-    @size: @iI(*100%);
+    <code class="fade">@size: calc(@i * 1%);</code>
+    @size: @i(*1%);
 
     <code class="fade">rotate: calc(360deg / @I * @i); </code>
     rotate: @iI(*360deg);
@@ -518,6 +516,9 @@ rotate: @iI(*360deg);
       pre {
         line-height: 2;
       }
+      .fade {
+        opacity: .25;
+      }
     }
   </style>
   <pre>
@@ -526,7 +527,8 @@ rotate: @iI(*360deg);
 @i(5)
 @i(*10)
 @i(10/)
-@i(*10, -2, 48/)</pre>
+@i(*10, -2, 48/)
+<span class="fade">calc(48 / (@i * 10 - 2))</span></pre>
 </slide>
 
 <slide>
@@ -547,8 +549,7 @@ rotate: @iI(*360deg);
 @r255
 @r.@r255
 @r.r.r.r.r255
-<code class="fade">@r(@r(@r(@r(@r(255)))))</code>
-  </pre>
+<code class="fade">@r(@r(@r(@r(@r(255)))))</code></pre>
 </slide>
 
 <slide col2>
@@ -594,7 +595,7 @@ translate:
 @pick, @p
 @P
 @pl, @pn
-@pr
+@pr, @pnr
 @pd
 </pre>
 </slide>
@@ -1140,6 +1141,16 @@ background: @svg-polygon()
   </p>
 </slide>
 
+<slide>
+
+  <pre>
+background: @doodle(
+  @grid: 2x2;
+  background: @p(red, blue);
+)</pre>
+
+</slide>
+
 
 <slide col2>
   <pre>
@@ -1161,7 +1172,6 @@ background: @p(@p(--c), @m2.doodle(
 
   <css-doodle click-to-update>
 @grid: @p(4, 5) / 75vh _1px;
-@seed: 1718264731761;
 
 --c: #FDF9EB, #BADFDB, #4ABFB8, #FF8B5C,
      #E63946, #F1FAEE, #A8DADC, #457B9D,
@@ -1270,6 +1280,14 @@ background: @svg(
 </slide>
 
 <slide>
+  <div>
+    <h2>Experimenting A New Syntax To Write SVG</h2>
+    <p><a href="https://yuanchuan.dev/experimenting-a-new-syntax-to-write-svg">https://yuanchuan.dev/experimenting-a-new-syntax-to-write-svg</a></p>
+  </div>
+</slide>
+
+
+<slide>
   <h2 class="title">Shapes</h2>
 </slide>
 
@@ -1282,6 +1300,14 @@ background: @svg(
     }
   </style>
   <img src="images/shapes.webp" />
+</slide>
+
+<slide>
+  <pre>
+@shape: heart;
+
+/* or */
+clip-path: @shape(heart);</pre>
 </slide>
 
 <slide>
@@ -1508,6 +1534,38 @@ clip-path: @shape(
   </div>
 </slide>
 
+ <slide>
+  <style>
+    @scope {
+      p {
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        gap: 4em;
+        text-align: center;
+      }
+      h2.title {
+        font-size: 6cqmin;
+        margin-bottom: .5em;
+      }
+    }
+  </style>
+  <div>
+    <section>
+      <h2 class="title">Documentation</h2>
+      <p><a href="https://css-doodle.com/">https://css-doodle.com</a></p>
+    </section>
+
+    <section>
+      <h2 class="title">CodePen collection</h2>
+      <p><a href="https://codepen.io/collection/XyVkpQ/">https://codepen.io/collection/XyVkpQ/</a></p>
+    </section>
+  </div>
+</slide>
+
+
+
 <slide>
  <style>
     @scope {
@@ -1575,3 +1633,6 @@ clip-path: @shape(
     document.documentElement.webkitRequestFullscreen();
   });
 </script>
+
+</body>
+</html>
